@@ -4,7 +4,7 @@ LIBS = -I ./boost_1_47_0
 CFLAGS = -Wall -c -O4 -ffast-math -fomit-frame-pointer -fforce-addr -static
 LFLAGS = -Wall -O4 -ffast-math -fomit-frame-pointer -fforce-addr -static
 
-all: alignOntology calculateFDRsForAlignment collapseRedundantNodes listDirectDescendentsAndAncestors
+all: alignOntology calculateFDRsForAlignment collapseRedundantNodes ontologyTermStats
 
 alignOntology: $(OBJS)
 	$(CC) $(LFLAGS) $(LIBS) $(OBJS) -o alignOntology
@@ -27,11 +27,11 @@ collapseRedundantNodes: collapseRedundantNodes.o collapseRedundantNodes.cpp coll
 collapseRedundantNodes.o: collapseRedundantNodes.cpp collapseRedundantNodes.h util.h graph.h
 	$(CC) $(CFLAGS) $(LIBS) collapseRedundantNodes.cpp
 
-listDirectDescendentsAndAncestors: listDirectDescendentsAndAncestors.o
-	$(CC) $(LFLAGS) $(LIBS) listDirectDescendentsAndAncestors.o -o listDirectDescendentsAndAncestors
+ontologyTermStats: ontologyTermStats.o
+	$(CC) $(LFLAGS) $(LIBS) ontologyTermStats.o -o ontologyTermStats
 
-listDirectDescendentsAndAncestors.o: listDirectDescendentsAndAncestors.cpp util.h graph.h
-	$(CC) $(CFLAGS) $(LIBS) listDirectDescendentsAndAncestors.cpp
+ontologyTermStats.o: ontologyTermStats.cpp util.h graph.h
+	$(CC) $(CFLAGS) $(LIBS) ontologyTermStats.cpp
 
 clean:
 	rm *.o
