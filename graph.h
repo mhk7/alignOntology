@@ -19,11 +19,13 @@ class Node {
   inline Node(string node_name, unsigned int node_id, map<string, unsigned> & geneNamesToIDs) {
     name = node_name;
     id = node_id;
-    descendents.insert(node_id);
+    //descendents.insert(node_id);
+    Utils::insertInOrder(descendents, node_id);
     addDescendentToVec(node_id);
 
     if (geneNamesToIDs.count(node_name) == 1) {
-      genes.insert(geneNamesToIDs[node_name]);
+      //genes.insert(geneNamesToIDs[node_name]);
+      Utils::insertInOrder(genes, geneNamesToIDs[node_name]);
       isTermGene = true;
     } else {
       isTermGene = false;
@@ -45,27 +47,30 @@ class Node {
   }
 
   inline void addParent(unsigned int newParent) {
-    parents.insert(newParent);
+    //parents.insert(newParent);
+    Utils::insertInOrder(parents, newParent);
   }
 
-  inline set<unsigned int>::iterator getParentsBegin() { 
+  inline vector<unsigned int>::iterator getParentsBegin() { 
     return parents.begin();
   }
 
-  inline set<unsigned int>::iterator getParentsEnd() { 
+  inline vector<unsigned int>::iterator getParentsEnd() { 
     return parents.end();
   }
   
-  inline const set<unsigned int>& getParents() {
+  inline const vector<unsigned int>& getParents() {
     return parents;
   }
 
   inline bool isParent(unsigned possibleParent) {
-    return parents.count(possibleParent);
+    //return parents.count(possibleParent);
+    return Utils::elementExists(parents, possibleParent);
   }
 
   inline bool isChild(unsigned possibleChild) {
-    return children.count(possibleChild);
+    //return children.count(possibleChild);
+    return Utils::elementExists(children, possibleChild);
   }
   
   inline bool isDescendent(unsigned possibleDescendent) {
@@ -91,18 +96,19 @@ class Node {
   }
 
   inline void addChild(unsigned int newChild) {
-    children.insert(newChild);
+    //children.insert(newChild);
+    Utils::insertInOrder(children, newChild);
   }
 
-  inline set<unsigned int>::iterator getChildrenBegin() { 
+  inline vector<unsigned int>::iterator getChildrenBegin() { 
     return children.begin();
   }
 
-  inline set<unsigned int>::iterator getChildrenEnd() { 
+  inline vector<unsigned int>::iterator getChildrenEnd() { 
     return children.end();
   }
 
-  inline const set<unsigned int>& getChildren() {
+  inline const vector<unsigned int>& getChildren() {
     return children;
   }
 
@@ -112,15 +118,18 @@ class Node {
 
   // This only inserts genes into node's gene list.  To maintain gene lists of all genes in graph,
   // use DAGraph::addGenesToAncestors
-  inline void addGenes(set<unsigned>::iterator genesBegin, set<unsigned>::iterator genesEnd) {
-    genes.insert(genesBegin,genesEnd);
+  inline void addGenes(vector<unsigned>::iterator genesBegin, vector<unsigned>::iterator genesEnd) {
+    //genes.insert(genesBegin,genesEnd);
+    for (vector<unsigned>::iterator it = genesBegin; it != genesEnd; ++it) {
+      Utils::insertInOrder(genes, *it);
+    }
   }
 
-  inline set<unsigned>::iterator getGenesBegin() { 
+  inline vector<unsigned>::iterator getGenesBegin() { 
     return genes.begin();
   }
 
-  inline set<unsigned>::iterator getGenesEnd() { 
+  inline vector<unsigned>::iterator getGenesEnd() { 
     return genes.end();
   }
   
@@ -128,11 +137,14 @@ class Node {
     return genes.size();
   }
 
-  inline void addDescendents(set<unsigned>::iterator descendentsBegin, set<unsigned>::iterator descendentsEnd) {
-    for (set<unsigned>::iterator it = descendentsBegin; it != descendentsEnd; ++it) {
+  inline void addDescendents(vector<unsigned>::iterator descendentsBegin, vector<unsigned>::iterator descendentsEnd) {
+    for (vector<unsigned>::iterator it = descendentsBegin; it != descendentsEnd; ++it) {
       addDescendentToVec(*it);
     }
-    descendents.insert(descendentsBegin,descendentsEnd);
+    //descendents.insert(descendentsBegin,descendentsEnd);
+    for (vector<unsigned>::iterator it = descendentsBegin; it != descendentsEnd; ++it) {
+      Utils::insertInOrder(genes, *it);
+    }
   }
 
   inline void addDescendentToVec(unsigned newID) {
@@ -149,11 +161,11 @@ class Node {
     siblingsVec[newID] = true;
   }
 
-  inline set<unsigned>::iterator getDescendentsBegin() { 
+  inline vector<unsigned>::iterator getDescendentsBegin() { 
     return descendents.begin();
   }
 
-  inline set<unsigned>::iterator getDescendentsEnd() { 
+  inline vector<unsigned>::iterator getDescendentsEnd() { 
     return descendents.end();
   }
   
@@ -176,10 +188,10 @@ class Node {
  private:
   string name;
   unsigned int id;
-  set<unsigned int> parents;
-  set<unsigned int> children;
-  set<unsigned int> genes;
-  set<unsigned int> descendents;
+  vector<unsigned int> parents;
+  vector<unsigned int> children;
+  vector<unsigned int> genes;
+  vector<unsigned int> descendents;
   vector<bool> descendentsVec;
   vector<bool> siblingsVec;
   bool isTermGene;
@@ -233,7 +245,7 @@ class DAGraph {
 
     // Update sibling lists
     if (keepSibs) {
-      for (set<unsigned>::iterator previousChildrenIt = getChildrenBegin(parentID); 
+      for (vector<unsigned>::iterator previousChildrenIt = getChildrenBegin(parentID); 
 	   previousChildrenIt != getChildrenEnd(parentID); ++previousChildrenIt) {
 	nodes[*previousChildrenIt].addSibling(childID);
 	nodes[childID].addSibling(*previousChildrenIt);
@@ -263,9 +275,9 @@ class DAGraph {
 
   // Recursively adds gene list to parent and all of its ansectors
   void addGenesToAncestors(Node & parent,
-			   set<unsigned>::iterator genesBegin, 
-			   set<unsigned>::iterator genesEnd) {
-    for (set<unsigned int>::iterator grandparentsIt = parent.getParentsBegin(); 
+			   vector<unsigned>::iterator genesBegin, 
+			   vector<unsigned>::iterator genesEnd) {
+    for (vector<unsigned int>::iterator grandparentsIt = parent.getParentsBegin(); 
 	 grandparentsIt != parent.getParentsEnd(); ++grandparentsIt) {
       addGenesToAncestors(nodes[*grandparentsIt], genesBegin, genesEnd);
     }
@@ -274,9 +286,9 @@ class DAGraph {
 
   // Recursively adds descendents list to parent and all of its ansectors
   void addDescendentsToAncestors(Node & parent,
-			   set<unsigned>::iterator descendentsBegin, 
-			   set<unsigned>::iterator descendentsEnd) {
-    for (set<unsigned int>::iterator grandparentsIt = parent.getParentsBegin(); 
+			   vector<unsigned>::iterator descendentsBegin, 
+			   vector<unsigned>::iterator descendentsEnd) {
+    for (vector<unsigned int>::iterator grandparentsIt = parent.getParentsBegin(); 
 	 grandparentsIt != parent.getParentsEnd(); ++grandparentsIt) {
       addDescendentsToAncestors(nodes[*grandparentsIt], descendentsBegin, descendentsEnd);
     }
@@ -285,7 +297,7 @@ class DAGraph {
 
   /*
   // Recursively adds gene list to parent and all of its ansectors.  Handles cycles in graph
-  void addGenesToAncestors(set<unsigned int> & nodesTraversed, Node & parent,
+  void addGenesToAncestors(vector<unsigned int> & nodesTraversed, Node & parent,
 			   set<string>::iterator genesBegin, 
 			   set<string>::iterator genesEnd) {
     
@@ -296,7 +308,7 @@ class DAGraph {
 
     // Otherwise, add the id to the traversed list and continue
     nodesTraversed.insert(parent.getID());
-    for (set<unsigned int>::iterator grandparentsIt = parent.getParentsBegin(); 
+    for (vector<unsigned int>::iterator grandparentsIt = parent.getParentsBegin(); 
 	 grandparentsIt != parent.getParentsEnd(); ++grandparentsIt) {
       addGenesToAncestors(nodesTraversed, nodes[*grandparentsIt], genesBegin, genesEnd);
     }
@@ -304,27 +316,27 @@ class DAGraph {
   }
   */
 
-  inline set<unsigned int>::iterator getParentsBegin(unsigned int id) { 
+  inline vector<unsigned int>::iterator getParentsBegin(unsigned int id) { 
     return nodes[id].getParentsBegin();
   }
 
-  inline set<unsigned int>::iterator getParentsEnd(unsigned int id) { 
+  inline vector<unsigned int>::iterator getParentsEnd(unsigned int id) { 
     return nodes[id].getParentsEnd();
   }
   
-  inline set<unsigned int>::iterator getChildrenBegin(unsigned int id) { 
+  inline vector<unsigned int>::iterator getChildrenBegin(unsigned int id) { 
     return nodes[id].getChildrenBegin();
   }
 
-  inline set<unsigned int>::iterator getChildrenEnd(unsigned int id) { 
+  inline vector<unsigned int>::iterator getChildrenEnd(unsigned int id) { 
     return nodes[id].getChildrenEnd();
   }
 
-  inline set<unsigned>::iterator getGenesBegin(unsigned int id) { 
+  inline vector<unsigned>::iterator getGenesBegin(unsigned int id) { 
     return nodes[id].getGenesBegin();
   }
 
-  inline set<unsigned>::iterator getGenesEnd(unsigned int id) { 
+  inline vector<unsigned>::iterator getGenesEnd(unsigned int id) { 
     return nodes[id].getGenesEnd();
   }
 

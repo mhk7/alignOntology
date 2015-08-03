@@ -15,10 +15,10 @@ class alignmentUtils {
       return 0;
     }
     
-    set<unsigned>::iterator first1 = n1.getGenesBegin();
-    set<unsigned>::iterator last1 = n1.getGenesEnd();
-    set<unsigned>::iterator first2 = n2.getGenesBegin();
-    set<unsigned>::iterator last2 = n2.getGenesEnd();
+    vector<unsigned>::iterator first1 = n1.getGenesBegin();
+    vector<unsigned>::iterator last1 = n1.getGenesEnd();
+    vector<unsigned>::iterator first2 = n2.getGenesBegin();
+    vector<unsigned>::iterator last2 = n2.getGenesEnd();
     
     int numInIntersection = 0;
     while (first1!=last1 && first2!=last2)
@@ -72,7 +72,7 @@ class alignmentUtils {
 				DAGraph & g1, DAGraph & g2, bool genesAsTerms = true);
   
   static float calculateSetSim(boost::numeric::ublas::matrix<float> & prevSim,
-			       const set<unsigned> & set1, const set<unsigned> & set2);
+			       const vector<unsigned> & set1, const vector<unsigned> & set2);
 
   static void getPreAlignment(boost::numeric::ublas::matrix<float> & simMat,
 			      alignmentType & preAlignment, float threshold,

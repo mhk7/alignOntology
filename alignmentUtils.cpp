@@ -45,32 +45,42 @@ void alignmentUtils::addRelSimToSimMat(boost::numeric::ublas::matrix<float> & si
   int i = 0;
   for (vector<Node>::iterator g1_nodes_it = g1.nodesBegin(); g1_nodes_it != g1.nodesEnd(); ++g1_nodes_it) {
     int j = 0;
-    set <unsigned> g1_node_children, g1_node_parents;
+    vector <unsigned> g1_node_children, g1_node_parents;
+    g1_node_children.reserve(g1_nodes_it->numChildren());
+    g1_node_parents.reserve(g1_nodes_it->numParents());
     if (!genesAsTerms) {
-      for (set<unsigned>::iterator it = g1_nodes_it->getChildrenBegin(); it != g1_nodes_it->getChildrenEnd(); ++it) {
+      for (vector<unsigned>::iterator it = g1_nodes_it->getChildrenBegin(); it != g1_nodes_it->getChildrenEnd(); ++it) {
 	if (!g1.isGene(*it)) {
-	  g1_node_children.insert(*it);
+	  //g1_node_children.insert(*it);
+	  Utils::insertInOrder(g1_node_children, *it);
 	}
       }
-      for (set<unsigned>::iterator it = g1_nodes_it->getParentsBegin(); it != g1_nodes_it->getParentsEnd(); ++it) {
+      for (vector<unsigned>::iterator it = g1_nodes_it->getParentsBegin(); it != g1_nodes_it->getParentsEnd(); ++it) {
 	if (!g1.isGene(*it)) {
-	  g1_node_parents.insert(*it);
+	  //g1_node_parents.insert(*it);
+	  Utils::insertInOrder(g1_node_parents, *it);
 	}
       }
     }
+
     for (vector<Node>::iterator g2_nodes_it = g2.nodesBegin(); g2_nodes_it != g2.nodesEnd(); ++g2_nodes_it) {
       
-      set<unsigned> g2_node_children, g2_node_parents;
+      vector<unsigned> g2_node_children, g2_node_parents;
+      g2_node_children.reserve(g2_nodes_it->numChildren());
+      g2_node_parents.reserve(g2_nodes_it->numParents());
+
       if (!genesAsTerms) {
-	for (set<unsigned>::iterator it = g2_nodes_it->getChildrenBegin(); it != g2_nodes_it->getChildrenEnd(); ++it) {
+	for (vector<unsigned>::iterator it = g2_nodes_it->getChildrenBegin(); it != g2_nodes_it->getChildrenEnd(); ++it) {
 	  if (!g2.isGene(*it)) {
-	    g2_node_children.insert(*it);
+	    //g2_node_children.insert(*it);
+	    Utils::insertInOrder(g2_node_children, *it);
 	  }
 	}
-	for (set<unsigned>::iterator it = g2_nodes_it->getParentsBegin(); it != g2_nodes_it->getParentsEnd(); ++it) {
+	for (vector<unsigned>::iterator it = g2_nodes_it->getParentsBegin(); it != g2_nodes_it->getParentsEnd(); ++it) {
 	  if (!g2.isGene(*it)) {
-	    g2_node_parents.insert(*it);
-	  }
+	    //g2_node_parents.insert(*it);
+	    Utils::insertInOrder(g2_node_parents, *it);
+     	  }
 	}
       }
       
@@ -174,7 +184,7 @@ bool alignmentUtils::compMappingSimScores(pair< float, mappingType > i,
 // between element i of set1 and element j of set2.  The same indices used for the matrix
 // are used to specify the elements of the sets.
 float alignmentUtils::calculateSetSim(boost::numeric::ublas::matrix<float> & simMat,
-				      const set<unsigned> & set1, const set<unsigned> & set2) {
+				      const vector<unsigned> & set1, const vector<unsigned> & set2) {
 
   // A vector which holds the similarity scores associated with each potential mapping between
   // elements of the two sets.  mappingSimScores.second.first gives the index of the element
@@ -183,9 +193,9 @@ float alignmentUtils::calculateSetSim(boost::numeric::ublas::matrix<float> & sim
   vector< pair< float, mappingType > > mappingSimScores;
   mappingSimScores.reserve(set1.size()*set2.size());
 
-  for (set<unsigned int>::iterator set1_it = set1.begin();
+  for (vector<unsigned int>::const_iterator set1_it = set1.begin();
        set1_it != set1.end(); ++set1_it) {
-    for (set<unsigned int>::iterator set2_it = set2.begin();
+    for (vector<unsigned int>::const_iterator set2_it = set2.begin();
 	 set2_it != set2.end(); ++set2_it) {
       mappingType mapping(*set1_it,*set2_it);
       float mappingScore = simMat(*set1_it,*set2_it);
