@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
   for (unsigned i = 0; i < g1.numNodes(); ++i) {
     if (opt == "tree") {
-      set<unsigned>::iterator parentIt = g1.getParentsBegin(i);
+      vector<unsigned>::iterator parentIt = g1.getParentsBegin(i);
       if (parentIt != g1.getParentsEnd(i)) {
 	unsigned smallestParent = *parentIt;
 	unsigned sizeSmallestParent = g1.numGenesInNode(*parentIt);

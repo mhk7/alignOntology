@@ -46,9 +46,11 @@ void alignmentUtils::addRelSimToSimMat(boost::numeric::ublas::matrix<float> & si
   for (vector<Node>::iterator g1_nodes_it = g1.nodesBegin(); g1_nodes_it != g1.nodesEnd(); ++g1_nodes_it) {
     int j = 0;
     vector <unsigned> g1_node_children, g1_node_parents;
-    g1_node_children.reserve(g1_nodes_it->numChildren());
-    g1_node_parents.reserve(g1_nodes_it->numParents());
     if (!genesAsTerms) {
+
+      g1_node_children.reserve(g1_nodes_it->numChildren());
+      g1_node_parents.reserve(g1_nodes_it->numParents());
+      
       for (vector<unsigned>::iterator it = g1_nodes_it->getChildrenBegin(); it != g1_nodes_it->getChildrenEnd(); ++it) {
 	if (!g1.isGene(*it)) {
 	  //g1_node_children.insert(*it);
@@ -62,14 +64,15 @@ void alignmentUtils::addRelSimToSimMat(boost::numeric::ublas::matrix<float> & si
 	}
       }
     }
-
+    
     for (vector<Node>::iterator g2_nodes_it = g2.nodesBegin(); g2_nodes_it != g2.nodesEnd(); ++g2_nodes_it) {
       
       vector<unsigned> g2_node_children, g2_node_parents;
-      g2_node_children.reserve(g2_nodes_it->numChildren());
-      g2_node_parents.reserve(g2_nodes_it->numParents());
-
       if (!genesAsTerms) {
+
+	g2_node_children.reserve(g2_nodes_it->numChildren());
+	g2_node_parents.reserve(g2_nodes_it->numParents());
+
 	for (vector<unsigned>::iterator it = g2_nodes_it->getChildrenBegin(); it != g2_nodes_it->getChildrenEnd(); ++it) {
 	  if (!g2.isGene(*it)) {
 	    //g2_node_children.insert(*it);
@@ -215,17 +218,22 @@ float alignmentUtils::calculateSetSim(boost::numeric::ublas::matrix<float> & sim
   float sumOfSims = 0;
 
   
-  // use set<unsigned>
-  set<unsigned> set1_entities_mapped;
-  set<unsigned> set2_entities_mapped;
+  // use vector<unsigned>
+  vector<unsigned> set1_entities_mapped;
+  vector<unsigned> set2_entities_mapped;
   for (vector< pair< float, mappingType > >::iterator vecIt = mappingSimScores.begin();
        vecIt != mappingSimScores.end(); ++vecIt) {
     // Check to make sure neither element already has a mapping
-    if ((set1_entities_mapped.count(vecIt->second.first) == 0) && 
-	(set2_entities_mapped.count(vecIt->second.second) == 0)) {
+
+    if ((!Utils::elementExists(set1_entities_mapped,vecIt->second.first)) && 
+	(!Utils::elementExists(set2_entities_mapped,vecIt->second.second))) {
+      //if ((set1_entities_mapped.count(vecIt->second.first) == 0) && 
+      //(set2_entities_mapped.count(vecIt->second.second) == 0)) {
       sumOfSims += vecIt->first;
-      set1_entities_mapped.insert(vecIt->second.first);
-      set2_entities_mapped.insert(vecIt->second.second);
+      //set1_entities_mapped.insert(vecIt->second.first);
+      //set2_entities_mapped.insert(vecIt->second.second);
+      Utils::insertInOrder(set1_entities_mapped, vecIt->second.first);
+      Utils::insertInOrder(set2_entities_mapped, vecIt->second.second);
       
       // If all of one of the elements of a set have been mapped, quit looking
       if ((set1_entities_mapped.size() == set1.size()) ||

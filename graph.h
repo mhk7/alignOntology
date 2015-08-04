@@ -140,11 +140,9 @@ class Node {
   inline void addDescendents(vector<unsigned>::iterator descendentsBegin, vector<unsigned>::iterator descendentsEnd) {
     for (vector<unsigned>::iterator it = descendentsBegin; it != descendentsEnd; ++it) {
       addDescendentToVec(*it);
+      Utils::insertInOrder(descendents, *it);
     }
     //descendents.insert(descendentsBegin,descendentsEnd);
-    for (vector<unsigned>::iterator it = descendentsBegin; it != descendentsEnd; ++it) {
-      Utils::insertInOrder(genes, *it);
-    }
   }
 
   inline void addDescendentToVec(unsigned newID) {

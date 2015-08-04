@@ -25,6 +25,20 @@ class Utils {
   }
 
   template <typename T>
+    static void printVector(const vector<T> & vec) {
+    if (vec.size() != 0) {
+      typename vector<T>::const_iterator it = vec.begin();
+      cout << *it;
+      ++it;
+      for (; it != vec.end(); ++it) {
+	cout << " " << *it;
+      }
+    }
+    cout << endl;
+    return;
+  }
+
+  template <typename T>
     inline static bool insertInOrder(vector<T> & sortedVector, const T & newElement) {
     if ((sortedVector.size() == 0) || (newElement > sortedVector.back())) {
       sortedVector.push_back(newElement);
