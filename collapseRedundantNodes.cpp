@@ -24,9 +24,9 @@ int main(int argc, char* argv[]) {
     if (nodesIt->numGenes() == 0) {
       nodesToEliminate[nodesIt->getID()] = true;
     } else if ((!nodesIt->isGene()) && (nodesIt->numGenes() < minToKeep)) {
-      for (set<unsigned>::iterator parentsIt = nodesIt->getParentsBegin(); parentsIt != nodesIt->getParentsEnd(); ++parentsIt) {
+      for (vector<unsigned>::iterator parentsIt = nodesIt->getParentsBegin(); parentsIt != nodesIt->getParentsEnd(); ++parentsIt) {
 	//cout << "Adding " << original_graph.getName(*parentsIt) << " to " << original_graph.getName(original_graph.geneIDToGraphID(*(nodesIt->getGenesBegin()), geneIDsToNames)) << endl;
-	for (set<unsigned>::iterator geneIt = nodesIt->getGenesBegin(); geneIt != nodesIt->getGenesEnd(); ++geneIt) {
+	for (vector<unsigned>::iterator geneIt = nodesIt->getGenesBegin(); geneIt != nodesIt->getGenesEnd(); ++geneIt) {
 	  collapsed_graph.addEdge(*parentsIt, original_graph.geneIDToGraphID(*geneIt, geneIDsToNames), "gene");
 	}
       }
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 
       for (set< pair<unsigned, string> >::iterator collapseIt = nodesToCollapseHere.begin();
 	   collapseIt != nodesToCollapseHere.end(); ++collapseIt) {
-	for (set<unsigned>::iterator nodesAboveCollapsingNodesIt = original_graph.getParentsBegin(collapseIt->first);
+	for (vector<unsigned>::iterator nodesAboveCollapsingNodesIt = original_graph.getParentsBegin(collapseIt->first);
 	     nodesAboveCollapsingNodesIt != original_graph.getParentsEnd(collapseIt->first);
 	     ++nodesAboveCollapsingNodesIt) {
 	  string oldEdgeType1 = collapseIt->second;
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 
   for (unsigned i = 0; i < collapsed_graph.numNodes(); ++i) {
     if (!nodesToEliminate[i]) {
-      for (set<unsigned>::iterator childIt = collapsed_graph.getChildrenBegin(i);
+      for (vector<unsigned>::iterator childIt = collapsed_graph.getChildrenBegin(i);
 	   childIt != collapsed_graph.getChildrenEnd(i); ++childIt) {
 	if (!nodesToEliminate[*childIt]) {
 	  cout << collapsed_graph.getName(i) << "\t" << collapsed_graph.getName(*childIt) << "\t" << collapsed_graph.getEdgeType(i,*childIt) << endl;

@@ -3,8 +3,8 @@
 #include "graph.h"
 
 inline bool areGenesInNodesSame(unsigned node1, unsigned node2, DAGraph & graph) {
-  set<unsigned>::iterator node1GenesIt = graph.getGenesBegin(node1);
-  set<unsigned>::iterator node2GenesIt = graph.getGenesBegin(node2);
+  vector<unsigned>::iterator node1GenesIt = graph.getGenesBegin(node1);
+  vector<unsigned>::iterator node2GenesIt = graph.getGenesBegin(node2);
   bool areSame = (!graph.isGene(node1) && !graph.isGene(node2));
   while (areSame && (node1GenesIt != graph.getGenesEnd(node1)) && (node2GenesIt != graph.getGenesEnd(node2))) {
     if (*node1GenesIt != *node2GenesIt) {
@@ -22,7 +22,7 @@ inline bool areGenesInNodesSame(unsigned node1, unsigned node2, DAGraph & graph)
 }
 
 void getParentsToCollapseHere(unsigned nodeID, DAGraph & graph, set<pair<unsigned, string> > & parentsToCollapseHere, string edgeTypesToHere = "") {
-  for (set<unsigned>::iterator parentIt = graph.getParentsBegin(nodeID);
+  for (vector<unsigned>::iterator parentIt = graph.getParentsBegin(nodeID);
        parentIt != graph.getParentsEnd(nodeID); ++parentIt) {
     bool areSame = areGenesInNodesSame(nodeID, *parentIt, graph);
     if (areSame) {
@@ -37,7 +37,7 @@ void getParentsToCollapseHere(unsigned nodeID, DAGraph & graph, set<pair<unsigne
 }
 
 void getChildrenToCollapseHere(unsigned nodeID, DAGraph & graph, set<unsigned> & childrenToCollapseHere) {
-  for (set<unsigned>::iterator childIt = graph.getChildrenBegin(nodeID);
+  for (vector<unsigned>::iterator childIt = graph.getChildrenBegin(nodeID);
        childIt != graph.getChildrenEnd(nodeID); ++childIt) {
     //cout << "parent: " << graph.getName(nodeID) << "\tchild: " << graph.getName(*childIt) << endl;
     bool areSame = areGenesInNodesSame(nodeID, *childIt, graph);
@@ -49,9 +49,9 @@ void getChildrenToCollapseHere(unsigned nodeID, DAGraph & graph, set<unsigned> &
 }
 
 void getSiblingsToCollapseHere(unsigned nodeID, DAGraph & graph, set<unsigned> & siblingsToCollapseHere) {
-  for (set<unsigned>::iterator parentIt = graph.getParentsBegin(nodeID);
+  for (vector<unsigned>::iterator parentIt = graph.getParentsBegin(nodeID);
        parentIt != graph.getParentsEnd(nodeID); ++parentIt) {
-    for (set<unsigned>::iterator siblingIt = graph.getChildrenBegin(*parentIt);
+    for (vector<unsigned>::iterator siblingIt = graph.getChildrenBegin(*parentIt);
 	 siblingIt != graph.getChildrenEnd(*parentIt); ++siblingIt) {
       if (*siblingIt != nodeID) {
 	bool areSame = areGenesInNodesSame(nodeID, *siblingIt, graph);
