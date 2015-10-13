@@ -37,22 +37,32 @@ int main(int argc, char* argv[]) {
 
       for (set< pair<unsigned, string> >::iterator collapseIt = nodesToCollapseHere.begin();
 	   collapseIt != nodesToCollapseHere.end(); ++collapseIt) {
-	for (vector<unsigned>::iterator nodesAboveCollapsingNodesIt = original_graph.getParentsBegin(collapseIt->first);
-	     nodesAboveCollapsingNodesIt != original_graph.getParentsEnd(collapseIt->first);
+	for (vector<unsigned>::iterator nodesAboveCollapsingNodesIt = collapsed_graph.getParentsBegin(collapseIt->first);
+	     nodesAboveCollapsingNodesIt != collapsed_graph.getParentsEnd(collapseIt->first);
 	     ++nodesAboveCollapsingNodesIt) {
-	  string oldEdgeType1 = collapseIt->second;
-	  string oldEdgeType2 = original_graph.getEdgeType(*nodesAboveCollapsingNodesIt, collapseIt->first);
-	  string newEdgeType;
-	  if ((oldEdgeType1 == "regulates") || (oldEdgeType2 == "regulates")) {
-	    newEdgeType = "regulates";
-	  } else if ((oldEdgeType1 == "part_of") || (oldEdgeType2 == "part_of")) {
-	    newEdgeType = "part_of";
-	  } else if ((oldEdgeType1 == "has_part") || (oldEdgeType2 == "has_part")) {
-	    newEdgeType = "has_part";
-	  } else {
-	    newEdgeType = "is_a";
+	  
+	  for (vector<unsigned>::iterator nodesBelowCollapsingNodesIt = collapsed_graph.getChildrenBegin(collapseIt->first);
+	       nodesBelowCollapsingNodesIt != collapsed_graph.getChildrenEnd(collapseIt->first);
+	       ++nodesBelowCollapsingNodesIt) {
+	    
+	    //string oldEdgeType1 = collapseIt->second;
+	    string oldEdgeType1 = collapsed_graph.getEdgeType(collapseIt->first, *nodesBelowCollapsingNodesIt);
+	    string oldEdgeType2 = collapsed_graph.getEdgeType(*nodesAboveCollapsingNodesIt, collapseIt->first);
+	    string newEdgeType;
+	    if (original_graph.isGene(*nodesBelowCollapsingNodesIt)) {
+	      newEdgeType = "gene";
+	    } else if ((oldEdgeType1 == "regulates") || (oldEdgeType2 == "regulates")) {
+	      newEdgeType = "regulates";
+	    } else if ((oldEdgeType1 == "part_of") || (oldEdgeType2 == "part_of")) {
+	      newEdgeType = "part_of";
+	    } else if ((oldEdgeType1 == "has_part") || (oldEdgeType2 == "has_part")) {
+	      newEdgeType = "has_part";
+	    } else {
+	      newEdgeType = "is_a";
+	    }
+	    //collapsed_graph.addEdge(*nodesAboveCollapsingNodesIt, nodesIt->getID(), newEdgeType);
+	    collapsed_graph.addEdge(*nodesAboveCollapsingNodesIt, *nodesBelowCollapsingNodesIt, newEdgeType);
 	  }
-	  collapsed_graph.addEdge(*nodesAboveCollapsingNodesIt, nodesIt->getID(), newEdgeType);
 	}
 	
 	nodesToEliminate[collapseIt->first] = true;

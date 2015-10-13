@@ -31,7 +31,8 @@ void getParentsToCollapseHere(unsigned nodeID, DAGraph & graph, set<pair<unsigne
       }
       edgeTypesToHere += graph.getEdgeType(*parentIt,nodeID);
       parentsToCollapseHere.insert(make_pair(*parentIt,edgeTypesToHere));
-      getParentsToCollapseHere(*parentIt, graph, parentsToCollapseHere,edgeTypesToHere);
+      //cout << graph.getName(*parentIt) << "\t" << graph.getName(nodeID) << endl;
+      //getParentsToCollapseHere(*parentIt, graph, parentsToCollapseHere,edgeTypesToHere);
     }
   }
 }
