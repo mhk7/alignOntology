@@ -764,7 +764,7 @@ namespace boost { namespace numeric { namespace ublas {
 #ifndef BOOST_UBLAS_SIMPLE_ET_DEBUG
         typedef expression_type result_type; 
 #else
-        // ISSUE matrix is arbitary temporary type
+        // ISSUE matrix is arbitrary temporary type
         typedef matrix<typename F::value_type> result_type;
 #endif
     };

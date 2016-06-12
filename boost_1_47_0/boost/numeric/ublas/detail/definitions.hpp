@@ -126,7 +126,7 @@ namespace boost { namespace numeric { namespace ublas {
             typename E::size_type size (const matrix_expression<E> &e) {
                 return e ().size1 ();
             }
-            // Note: Index functions cannot deduce dependant template parameter V or M from i
+            // Note: Index functions cannot deduce dependent template parameter V or M from i
             template <class V>
             BOOST_UBLAS_INLINE static
             typename V::size_type index (const typename V::iterator &i) {

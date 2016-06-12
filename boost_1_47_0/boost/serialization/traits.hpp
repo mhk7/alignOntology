@@ -22,7 +22,7 @@
 
 // The motivation for this is the Name-Value Pair (NVP) template.
 // it has to work the same on all platforms in order for archives
-// to be portable accross platforms.
+// to be portable across platforms.
 
 #include <boost/config.hpp>
 #include <boost/static_assert.hpp>

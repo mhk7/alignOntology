@@ -287,7 +287,7 @@ BOOST_MPL_AUX_NA_SPEC2(2, AUX778076_OP_ARITY, AUX778076_OP_NAME)
 
 ///// iteration, depth == 1
 
-// For gcc 4.4 compatability, we must include the
+// For gcc 4.4 compatibility, we must include the
 // BOOST_PP_ITERATION_DEPTH test inside an #else clause.
 #else // BOOST_PP_IS_ITERATING
 #if BOOST_PP_ITERATION_DEPTH() == 1

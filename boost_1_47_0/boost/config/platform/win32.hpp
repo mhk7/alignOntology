@@ -45,7 +45,7 @@
 #endif
 //
 // Win32 will normally be using native Win32 threads,
-// but there is a pthread library avaliable as an option,
+// but there is a pthread library available as an option,
 // we used to disable this when BOOST_DISABLE_WIN32 was 
 // defined but no longer - this should allow some
 // files to be compiled in strict mode - while maintaining

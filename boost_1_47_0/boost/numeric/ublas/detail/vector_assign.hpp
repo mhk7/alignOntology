@@ -516,7 +516,7 @@ namespace detail {
         typedef typename V::value_type value_type;
 
         detail::make_conformant (v, e);
-        // FIXME should be a seperate restriction for E
+        // FIXME should be a separate restriction for E
         detail::make_conformant (e (), v);
 
         typename V::iterator it (v.begin ());

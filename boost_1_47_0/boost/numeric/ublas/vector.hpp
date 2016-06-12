@@ -1005,14 +1005,14 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_INLINE
             const_reference operator * () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return zero_;   // arbitary return value
+                return zero_;   // arbitrary return value
             }
 
             // Index
             BOOST_UBLAS_INLINE
             size_type index () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return 0;   // arbitary return value
+                return 0;   // arbitrary return value
             }
 
             // Assignment

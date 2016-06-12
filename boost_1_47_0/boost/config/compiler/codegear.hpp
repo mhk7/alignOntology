@@ -42,7 +42,7 @@
 
 // CodeGear C++ Builder 2010
 #if (__CODEGEARC__ <= 0x621)
-#  define BOOST_NO_TYPENAME_WITH_CTOR    // Cannot use typename keyword when making temporaries of a dependant type
+#  define BOOST_NO_TYPENAME_WITH_CTOR    // Cannot use typename keyword when making temporaries of a dependent type
 #  define BOOST_FUNCTION_SCOPE_USING_DECLARATION_BREAKS_ADL
 #  define BOOST_NO_MEMBER_TEMPLATE_FRIENDS
 #  define BOOST_NO_NESTED_FRIENDSHIP     // TC1 gives nested classes access rights as any other member
