@@ -44,7 +44,7 @@ struct AUX_WRAPPER_NAME
 {
     BOOST_STATIC_CONSTANT(AUX_WRAPPER_VALUE_TYPE, value = N);
 // agurt, 08/mar/03: SGI MIPSpro C++ workaround, have to #ifdef because some 
-// other compilers (e.g. MSVC) are not particulary happy about it
+// other compilers (e.g. MSVC) are not particularly happy about it
 #if BOOST_WORKAROUND(__EDG_VERSION__, <= 238)
     typedef struct AUX_WRAPPER_NAME type;
 #else

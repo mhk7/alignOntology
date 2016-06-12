@@ -205,7 +205,7 @@ namespace boost { namespace numeric { namespace ublas {
     };
 
 #if BOOST_UBLAS_CHECK_ENABLE
-// Macros are equivilent to 
+// Macros are equivalent to 
 //    template<class E>
 //    BOOST_UBLAS_INLINE
 //    void check (bool expression, const E &e) {
@@ -247,7 +247,7 @@ namespace boost { namespace numeric { namespace ublas {
     }
 #endif
 #else
-// Macros are equivilent to 
+// Macros are equivalent to 
 //    template<class E>
 //    BOOST_UBLAS_INLINE
 //    void check (bool expression, const E &e) {}
@@ -261,7 +261,7 @@ namespace boost { namespace numeric { namespace ublas {
 
 
 #ifndef BOOST_UBLAS_USE_FAST_SAME
-// Macro is equivilent to 
+// Macro is equivalent to 
 //    template<class T>
 //    BOOST_UBLAS_INLINE
 //    const T &same_impl (const T &size1, const T &size2) {
@@ -288,7 +288,7 @@ namespace boost { namespace numeric { namespace ublas {
     }
 #define BOOST_UBLAS_SAME(size1, size2) same_impl_ex ((size1), (size2), __FILE__, __LINE__)
 #else
-// Macros are equivilent to 
+// Macros are equivalent to 
 //    template<class T>
 //    BOOST_UBLAS_INLINE
 //    const T &same_impl (const T &size1, const T &size2) {

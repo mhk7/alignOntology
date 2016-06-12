@@ -1362,7 +1362,7 @@ namespace detail {
         BOOST_UBLAS_CHECK (m.size2 () == e ().size2 (), bad_size ());
 
         detail::make_conformant (m, e, row_major_tag (), conformant_restrict_type ());
-        // FIXME should be a seperate restriction for E
+        // FIXME should be a separate restriction for E
         detail::make_conformant (e (), m, row_major_tag (), conformant_restrict_type ());
 
         typename M::iterator1 it1 (m.begin1 ());
@@ -1487,7 +1487,7 @@ namespace detail {
         BOOST_UBLAS_CHECK (m.size2 () == e ().size2 (), bad_size ());
 
         detail::make_conformant (m, e, column_major_tag (), conformant_restrict_type ());
-        // FIXME should be a seperate restriction for E
+        // FIXME should be a separate restriction for E
         detail::make_conformant (e (), m, column_major_tag (), conformant_restrict_type ());
 
         typename M::iterator2 it2 (m.begin2 ());

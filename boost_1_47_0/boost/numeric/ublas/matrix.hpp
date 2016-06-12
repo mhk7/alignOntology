@@ -2287,7 +2287,7 @@ namespace boost { namespace numeric {
             BOOST_UBLAS_INLINE
             const_reference operator * () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return zero_;   // arbitary return value
+                return zero_;   // arbitrary return value
             }
 
 #ifndef BOOST_UBLAS_NO_NESTED_CLASS_RELATION
@@ -2325,12 +2325,12 @@ namespace boost { namespace numeric {
             BOOST_UBLAS_INLINE
             size_type index1 () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return 0;   // arbitary return value
+                return 0;   // arbitrary return value
             }
             BOOST_UBLAS_INLINE
             size_type index2 () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return 0;   // arbitary return value
+                return 0;   // arbitrary return value
             }
 
             // Assignment
@@ -2397,7 +2397,7 @@ namespace boost { namespace numeric {
             BOOST_UBLAS_INLINE
             const_reference operator * () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return zero_;   // arbitary return value
+                return zero_;   // arbitrary return value
             }
 
 #ifndef BOOST_UBLAS_NO_NESTED_CLASS_RELATION
@@ -2435,12 +2435,12 @@ namespace boost { namespace numeric {
             BOOST_UBLAS_INLINE
             size_type index1 () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return 0;   // arbitary return value
+                return 0;   // arbitrary return value
             }
             BOOST_UBLAS_INLINE
             size_type index2 () const {
                 BOOST_UBLAS_CHECK_FALSE (bad_index ());
-                return 0;   // arbitary return value
+                return 0;   // arbitrary return value
             }
 
             // Assignment

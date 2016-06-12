@@ -39,7 +39,7 @@
 
 #if defined(__BORLANDC__) && (__BORLANDC__ < 0x600)
 //Borland incorrectly handles T const, T const volatile and T volatile.
-//It drops the decoration no matter what, so we need to try to handle T* const etc. without loosing the top modifier.
+//It drops the decoration no matter what, so we need to try to handle T* const etc. without losing the top modifier.
 #define BOOST_TYPEOF_const_pointer_fun(T) T const *
 #define BOOST_TYPEOF_const_reference_fun(T) T const &
 #define BOOST_TYPEOF_volatile_pointer_fun(T) T volatile*
